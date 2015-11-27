@@ -1,11 +1,13 @@
 fileFormatVersion: 2
 guid: 5dcc5a9ce970b704399bc9a227ad45da
-timeCreated: 1446316172
+timeCreated: 1448184277
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Laser
     21300002: Nave
+    21300004: Laser
+    21300006: Nave
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -56,19 +58,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 267
-        width: 20
-        height: 135
+        y: 134
+        width: 10
+        height: 68
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Nave
       rect:
         serializedVersion: 2
-        x: 37
+        x: 18
         y: 0
-        width: 475
-        height: 427
+        width: 238
+        height: 214
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d54e37f91bed974c98590459bbd8c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserSpeed: 10
+  laserSpeed: 15
   laserLive: 5
 --- !u!212 &21289122
 SpriteRenderer:
@@ -120,6 +120,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: laserLive
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: laserSpeed
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

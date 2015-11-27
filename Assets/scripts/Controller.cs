@@ -13,9 +13,17 @@ public class Controller : MonoBehaviour {
 	private bool laserShooted = false;
 	private float shootTime;
 	private bool leftCannonShooted = false;
+    private bool bordeIzq = false;
+    private bool bordeDcho = false;
+    private float verticalAxisValue = 0f;
 
-	// Use this for initialization
-	void Start () {
+    // Contantes
+    public const string borderTag = "Borde";
+    public const string bordeIzqName = "Borde_I";
+    public const string bordeDchoName = "Borde_D";
+
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -25,19 +33,30 @@ public class Controller : MonoBehaviour {
 		var vertical = Input.GetAxis ("Vertical");
 
 		if (horizontal != 0) {
-			// Debug.Log ("Movimiento horizontal: " + horizontal);
+            // Debug.Log ("Movimiento horizontal: " + horizontal);
+            bool mover = true;
+            if ((horizontal > 0 && bordeDcho) || (horizontal < 0 && bordeIzq))
+            {
+                mover = false;
+            }
 
-			this.transform.Translate(Vector2.right * horizontal * speed, Space.World);
+            if (mover) {
+                this.transform.Translate(Vector2.right * horizontal * speed, Space.World);
+            }
 		}
 
-		if (vertical > 0) {
+        // Si ha pulsado arriba y su valor es mayor o igual que el anterior.
+		if (vertical > 0 && vertical >= verticalAxisValue) {
 			// Debug.Log ("Pulsado arriba: " + vertical);
 
 			if (canShoot()) {
 				disparar();
 			}
 		}
-	}
+
+        // Se actualiza el valor del eje vertical para la siguiente llamada.
+        verticalAxisValue = vertical;
+    }
 
 	private bool canShoot() {
 		bool canShoot = false;
@@ -62,8 +81,7 @@ public class Controller : MonoBehaviour {
 			Vector3 position = this.laserPosition();
 
 			GameObject clone = Instantiate (laser, position, this.transform.rotation) as GameObject;
-
-			// clone.velocity = transform.TransformDirection(Vector3.up * laserSpeed);
+            clone.name = "Laser" + Time.time;
 
 			shootTime = Time.time;
 			laserShooted = true;
@@ -82,4 +100,48 @@ public class Controller : MonoBehaviour {
 		}
 		return position;
 	}
+
+    void OnCollisionEnter2D(Collision2D collision2D) {
+        gestionarColision(collision2D.gameObject);
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        gestionarColision(other.gameObject);
+    }
+
+    private void gestionarColision(GameObject objColisionado)
+    {
+        Debug.Log("Colisión Trigger con " + objColisionado.name + ". Su tag es: " + objColisionado.tag);
+
+        //If the object we collided with was a Border.
+        if (objColisionado.tag == borderTag)
+        {
+            Debug.Log("Entro en el if");
+            bordeIzq = objColisionado.name.Equals(bordeIzqName);
+            bordeDcho = objColisionado.name.Equals(bordeDchoName);
+        }
+
+        Debug.Log("bordeIzq: " + bordeIzq + ". bordeDcho: " + bordeDcho);
+    }
+
+    void OnCollisionExit2D(Collision2D collision2D)
+    {
+        gestionarSalidaColision(collision2D.gameObject);
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        gestionarSalidaColision(other.gameObject);
+    }
+
+    private void gestionarSalidaColision(GameObject objColisionado)
+    {
+        //If the object we exit colliding with was a Border.
+        if (objColisionado.tag == borderTag)
+        {
+            bordeIzq = false;
+            bordeDcho = false;
+        }
+    }
 }
