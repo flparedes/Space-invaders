@@ -17,11 +17,6 @@ public class Controller : MonoBehaviour {
     private bool bordeDcho = false;
     private float verticalAxisValue = 0f;
 
-    // Contantes
-    public const string borderTag = "Borde";
-    public const string bordeIzqName = "Borde_I";
-    public const string bordeDchoName = "Borde_D";
-
     // Use this for initialization
     void Start () {
 	
@@ -115,11 +110,11 @@ public class Controller : MonoBehaviour {
         Debug.Log("Colisión Trigger con " + objColisionado.name + ". Su tag es: " + objColisionado.tag);
 
         //If the object we collided with was a Border.
-        if (objColisionado.tag == borderTag)
+        if (objColisionado.tag == Constantes.BorderTag)
         {
             Debug.Log("Entro en el if");
-            bordeIzq = objColisionado.name.Equals(bordeIzqName);
-            bordeDcho = objColisionado.name.Equals(bordeDchoName);
+			bordeIzq = objColisionado.name.Equals(Constantes.BordeIzqName);
+			bordeDcho = objColisionado.name.Equals(Constantes.BordeDchoName);
         }
 
         Debug.Log("bordeIzq: " + bordeIzq + ". bordeDcho: " + bordeDcho);
@@ -138,7 +133,7 @@ public class Controller : MonoBehaviour {
     private void gestionarSalidaColision(GameObject objColisionado)
     {
         //If the object we exit colliding with was a Border.
-        if (objColisionado.tag == borderTag)
+		if (objColisionado.tag == Constantes.BorderTag)
         {
             bordeIzq = false;
             bordeDcho = false;
