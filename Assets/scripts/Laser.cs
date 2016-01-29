@@ -5,6 +5,7 @@ public class Laser : MonoBehaviour {
 	
 	public float laserSpeed = 10f;
 	public float laserLive = 10f;
+	public string origen { get; set;}
 
 	// Use this for initialization
 	void Start () {
@@ -14,6 +15,6 @@ public class Laser : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		this.transform.Translate(Vector2.up * Time.deltaTime * laserSpeed, Space.World);
+		this.transform.Translate(this.transform.up * Time.deltaTime * laserSpeed, Space.World);
 	}
 }

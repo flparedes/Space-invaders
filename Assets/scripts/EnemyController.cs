@@ -6,9 +6,14 @@ public class EnemyController : MonoBehaviour {
 	public float speed = 1f;
 	private float direccion = 0.1f;
 
+	public GameObject laser;
+	public GameObject cannon;
+	public float probabilidadDisparo = 0.25f;
+
 	// Use this for initialization
 	void Start () {
 		Debug.Log ("Padre: " + this.transform.parent.name);
+		InvokeRepeating("disparar", 3, 1);
 	}
 	
 	// Update is called once per frame
@@ -40,8 +45,11 @@ public class EnemyController : MonoBehaviour {
 			parentController.CambiarDireccion ();
 		}
 		else if (objColisionado.tag == Constantes.LaserTag) {
-			Debug.Log("Choco con el laser");
-			TakeDamage ();
+			Laser laser = objColisionado.GetComponent<Laser> ();
+			Debug.Log("Choco con el laser. Origen: " + laser.origen);
+			if (!this.name.Equals (laser.origen)) {
+				TakeDamage ();
+			}
 		}
 	}
 
@@ -51,5 +59,17 @@ public class EnemyController : MonoBehaviour {
 
 	private void TakeDamage() {
 		Destroy (this.gameObject);
+	}
+
+	private void disparar() {
+		// Si el número generado aleatoriamente es menor que la probabilidad se dispara
+		if (Random.value <= probabilidadDisparo) {
+			Debug.Log ("Disparando Laser");
+
+			GameObject clone = Instantiate (laser, cannon.transform.position, cannon.transform.rotation) as GameObject;
+			Laser laserInstance = clone.GetComponent<Laser> ();
+			laserInstance.origen = this.name;
+			clone.name = "LaserEnemigo" + Time.time;
+		}
 	}
 }
